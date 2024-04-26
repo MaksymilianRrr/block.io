@@ -1,6 +1,7 @@
 package pages;
 
 import io.restassured.response.Response;
+
 import static io.restassured.RestAssured.given;
 
 public class Address {
@@ -17,7 +18,7 @@ public class Address {
             .param("api_key", apiKey)
             .param("label", label)
             .when()
-            .get(baseUrl + "/get_balance/");
+                .get(baseUrl + "/get_balance/");
         if (response.getStatusCode() == 200) {
             balance = Double.parseDouble(response.getBody().jsonPath().getString("data.available_balance"));
         }
@@ -36,6 +37,6 @@ public class Address {
                 .post(baseUrl + "/prepare_transaction/")
             .then()
                 .assertThat()
-                    .statusCode(200);
+                   .statusCode(200);
     }
 }

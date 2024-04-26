@@ -17,16 +17,16 @@ public class AddressTestsRestAssured {
     @Test(priority = -1)
     public void testCreateAddressWithLabel() {
         given()
-                .param("api_key", apiKey)
-                .param("label", label)
-                .when()
+            .param("api_key", apiKey)
+            .param("label", label)
+            .when()
                 .post(baseUrl + "/get_new_address/")
-                .then()
+            .then()
                 .assertThat()
-                .statusCode(200)
+                    .statusCode(200)
                 .assertThat()
-                .body("data.address", not(empty()))
-                .body("data.label", equalTo(label));
+                    .body("data.address", not(empty()))
+                    .body("data.label", equalTo(label));
     }
 
     @DataProvider(name = "testData")
@@ -40,17 +40,17 @@ public class AddressTestsRestAssured {
     @Test(dataProvider = "testData")
     public void testBalance(String label, String value) {
         given()
-                .param("api_key", apiKey)
-                .param("label", label)
-                .when()
+            .param("api_key", apiKey)
+            .param("label", label)
+            .when()
                 .post(baseUrl + "/get_balance/")
-                .then()
+            .then()
                 .assertThat()
-                .statusCode(200)
+                    .statusCode(200)
                 .assertThat()
-                .body("data.balances[0].label", equalTo(label))
-                .body("data.available_balance", not(empty()))
-                .body("data.available_balance", equalTo(value));
+                    .body("data.balances[0].label", equalTo(label))
+                    .body("data.available_balance", not(empty()))
+                    .body("data.available_balance", equalTo(value));
     }
 
     @Test
@@ -69,15 +69,15 @@ public class AddressTestsRestAssured {
     @Test(dependsOnMethods = "testBalanceAfterTransaction")
     public void testRecentTransactions() {
         given()
-                .param("api_key", apiKey)
-                .param("type", "sent")
-                .when()
+            .param("api_key", apiKey)
+            .param("type", "sent")
+            .when()
                 .get(baseUrl + "/get_transactions/")
-                .then()
+            .then()
                 .assertThat()
-                .statusCode(200)
-                .body("status", equalTo("success"))
-                .body("data.txs", not(empty()))
-                .body("data.txs[0].total_amount_sent", notNullValue());
+                    .statusCode(200)
+                    .body("status", equalTo("success"))
+                    .body("data.txs", not(empty()))
+                    .body("data.txs[0].total_amount_sent", notNullValue());
     }
 }
